@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,12 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::post('session', [\App\Http\Controllers\SessionController::class, 'store'])
+Route::post('session', [SessionController::class, 'store'])
     ->name('api.session.store');
 
-Route::delete('session', [\App\Http\Controllers\SessionController::class, 'destroy'])
+Route::delete('session', [SessionController::class, 'destroy'])
     ->name('api.session.destroy');
-
-Route::get('/', function () {
-    return view('welcome');
-});

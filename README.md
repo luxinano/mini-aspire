@@ -7,59 +7,83 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About mini-aspire API application
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project is using Laravel is a web application framework with expressive, elegant syntax to build a mini-aspire API.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+It is an app that allows authenticated users to go through a loan application. It doesn’t have to contain too many fields, but at least “amount
+required” and “loan term.” All the loans will be assumed to have a “weekly” repayment frequency.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+After the loan is approved, the user must be able to submit the weekly loan repayments. It can be a simplified repay functionality, which won’t
+need to check if the dates are correct but will just set the weekly amount to be repaid.
 
-## Learning Laravel
+## Getting Started
+- Clone the repo
+- Clone the .env.example then rename to .env
+### Using Docker to set up
+The project is configurated to run with docker by using the [Laravel Sail](https://laravel.com/docs/8.x/sail#introduction).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+First, you need to run composer install command line if you have the completed PHP CLI and composer setup on your local.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Otherwise, you could install composer dependencies for this existing application by following this [Laravel Sail guideline](https://laravel.com/docs/8.x/sail#installing-composer-dependencies-for-existing-projects).
 
-## Laravel Sponsors
+After installing the composer dependencies, following this [Configuring A Bash Alias](https://laravel.com/docs/8.x/sail#configuring-a-bash-alias) to run `sail` command lines.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Configuration
+After the application is up, we need to run migration and seed script to create table and sample data
+- If you are using sail, you need to run this command:
+`sail artisan migrate:refresh --seed`
+- Otherwise, you could use the normal laravel migration command line: `php artisan migrate:refresh --seed` but just make sure the application is able to connect to your database following the settings in `.env`file.
 
-### Premium Partners
+## Usage
+Import `mini-aspire.postman_collection.json` to your postman.
+You might need to update the `APP_URL` environment variable to your URL localhost.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+The application provides 8 APIs:
+- Login
+- Logout
+- Add LoanApplication
+- List LoanApplication
+- Get LoanApplication
+- Approve LoanApplication
+- Add LoanRepayment
 
-## Contributing
+### Sample user data
+There are 2 user types:
+- Approver user (2 sample records) - `approver1` and `approver2`
+- Normal user (2 sample record) - `user1` and `user2`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+All user has the same password as `123`
 
-## Code of Conduct
+### Authentication
+The application is using a session guard which maintains state using session storage and cookies which is shipped by [Laravel Authentication](https://laravel.com/docs/8.x/authentication#introduction) to authenticate a user
+and [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum#spa-authentication) to be the SPA authentication approach which uses Laravel's built-in cookie based session authentication services.
+This approach to authentication provides the benefits of CSRF protection, session authentication, as well as protects against leakage of the authentication credentials via XSS.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Authorization
+The application is using [Policies](https://laravel.com/docs/8.x/authorization#creating-policies) feature to make following restriction rules:
+- Only approver user can list all loan application or view any loan application
+- Only normal user can add a loan application
+- Only approver user can approve a loan application which is not approved yet
+- Normal user can only view his/her own loan application
+- Only owner of a loan application can submit the weekly loan repayments for it and this loan application is not fully located yet
 
-## Security Vulnerabilities
+### Validation rules
+The application is using [Form Request Validation](https://laravel.com/docs/8.x/validation#creating-form-requests) to build validation rules on loan application and loan repayment resources.
+- The `amount_required` and `loan_term_by_week` are required fields
+- Date format `Y-m-d` for `approved_date` and `repayment_date`. If this field is not provided, the current date is used
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Eloquent: API Resources
+The application is using [Eloquent: API Resources](https://laravel.com/docs/8.x/eloquent-resources) to be a transformation layer that sits between Eloquent models and the JSON responses that are actually returned to application's users.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Scenario
+- Login as user1: `{"name": "user1", "password": "123"}` => 200 OK | UserResource
+- Add LoanApplication: `{"amount_required": 1000, "loan_term_by_week": 2}` => 201 Created | LoanApplicationResource
+- Approve LoanApplication as user1 (normal user), use the id from response above: => 403 Forbidden
+- Login as approver1: `{"name": "approver1", "password": "123"}` => 200 OK | UserResource
+- Approve LoanApplication as approver1 (approver user), use the id from the 2nd response above => 200 OK | LoanApplicationResource
+- Add LoanRepayment as approver1 (approver user), use the id from the 2nd response above => 403 Forbidden
+- Login as user1: `{"name": "user1", "password": "123"}` => 200 OK | UserResource
+- Add LoanRepayment as user1 (normal user), use the id from the 2nd response above => 201 Created | LoanRepaymentResource
+- Add LoanRepayment as user1 (normal user), use the id from the 2nd response above => 201 Created | LoanRepaymentResource
+- Add LoanRepayment as user1 (normal user), use the id from the 2nd response above => 403 Forbidden due to the loan application is fully located
