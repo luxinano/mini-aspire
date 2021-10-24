@@ -37,7 +37,7 @@ After the application is up, we need to run migration and seed script to create 
 
 ## Usage
 Import `mini-aspire.postman_collection.json` to your postman.
-You might need to update the `APP_URL` environment variable to your URL localhost.
+You might need to update the `APP_URL` collection variable to your URL localhost.
 
 The application provides 8 APIs:
 - Login

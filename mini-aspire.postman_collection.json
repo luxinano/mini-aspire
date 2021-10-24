@@ -1,0 +1,405 @@
+{
+	"info": {
+		"_postman_id": "7312db73-9856-4813-9fc2-4bdbff5baa5e",
+		"name": "mini-aspire",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_TOKEN}}",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"user1\",\r\n    \"password\": \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}session",
+					"host": [
+						"{{APP_URL}}session"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login as user1",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"user1\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}session",
+							"host": [
+								"{{APP_URL}}session"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"data\": {\r\n        \"id\": 1,\r\n        \"name\": \"user1\",\r\n        \"email\": \"FgEbqpfi3T@gmail.com\"\r\n    }\r\n}"
+				},
+				{
+					"name": "Login as approver1",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF_TOKEN}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"approver1\",\r\n    \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP_URL}}session",
+							"host": [
+								"{{APP_URL}}session"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"data\": {\r\n        \"id\": 3,\r\n        \"name\": \"approver1\",\r\n        \"email\": \"QxhnPglmIc@gmail.com\",\r\n        \"approver\": true\r\n    }\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Logout",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{APP_URL}}session",
+					"host": [
+						"{{APP_URL}}session"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add LoanApplication",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{APP_URL}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount_required\": 1000,\r\n    \"loan_term_by_week\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP_URL}}api/loan-application",
+					"host": [
+						"{{APP_URL}}api"
+					],
+					"path": [
+						"loan-application"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List LoanApplication",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{APP_URL}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{APP_URL}}api/loan-application",
+					"host": [
+						"{{APP_URL}}api"
+					],
+					"path": [
+						"loan-application"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get LoanApplication",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{APP_URL}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{APP_URL}}api/loan-application/2",
+					"host": [
+						"{{APP_URL}}api"
+					],
+					"path": [
+						"loan-application",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve LoanApplication",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{APP_URL}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{APP_URL}}api/loan-application/1",
+					"host": [
+						"{{APP_URL}}api"
+					],
+					"path": [
+						"loan-application",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add LoanRepayment",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Referer",
+						"value": "{{APP_URL}}",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{XSRF_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{APP_URL}}api/loan-application/1/loan-repayment",
+					"host": [
+						"{{APP_URL}}api"
+					],
+					"path": [
+						"loan-application",
+						"1",
+						"loan-repayment"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest({",
+					"    url: pm.collectionVariables.get(\"APP_URL\") + 'sanctum/csrf-cookie',",
+					"    method: 'GET'",
+					"}, function (error, response, { cookies }) {",
+					"    if (!error) {",
+					"        pm.collectionVariables.set('XSRF_TOKEN', cookies.get('XSRF-TOKEN'))",
+					"    }",
+					"})",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APP_URL",
+			"value": "http://localhost/"
+		},
+		{
+			"key": "XSRF_TOKEN",
+			"value": ""
+		}
+	]
+}
